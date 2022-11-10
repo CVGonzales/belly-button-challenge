@@ -1,4 +1,5 @@
 // Use D3 library to read in samples.json file. 
+
 const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
 
 const dataPromise = d3.json(url);
@@ -6,9 +7,10 @@ console.log("Data Promise: ", dataPromise);
 
 d3.json(url).then(function(data) {
 
-  let element = d3.select("#se1Dataset");
+  let dropdown = d3.select("#selDataset");
+  
   for (let i in data.names) {
-    let option = element.append("option")
+    let option = dropdown.append("option")
       .text(data.names[i])
       .attr("values", data.names[i]);  
   }
@@ -78,3 +80,37 @@ function bubbleChart(sample) {
   graphDiv = document.getElementById('bubble');
   Plotly.newPlot(graphDiv, bubbleChartData, layout,config);
 }
+
+// Display the sample metadata, i.e., an individual's demographic information.
+
+function metadataDisplay(metadata) {
+  let dropdown = d3.select("#sample-metadata");
+  d3.selectAll('p').remove();
+
+  for (let i in metadata) {
+    dropdown.append("p")
+      .text(`${i}: ${metadata[i]}`)
+  }
+}  
+
+
+// Update all the plots when a new sample is selected.
+
+function optionChanged(value){
+
+  d3.json(url).then(function(data) {
+    let sample = [];
+    let metadata = [];
+    for (let i in data.samples){
+      sample = data.samples[i];
+      metadata = data.metadata[i];
+      if ( sample.id == value ) {
+        break;
+      }
+    }
+    barChart(sample);
+    bubbleChart(sample);
+    metadataDisplay(metadata);
+    })
+  
+  }
