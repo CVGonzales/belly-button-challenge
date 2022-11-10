@@ -13,3 +13,6 @@ samples.json file contains the dataset which this assignment will be based on.
 
 
 static folder contains the app.js file which contains the code for creating the dropdown bar, horizontal barchart, bubble chart and meta display.
+
+
+Link to github pages: https://cvgonzales.github.io/belly-button-challenge/
